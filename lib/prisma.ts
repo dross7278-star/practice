@@ -17,8 +17,24 @@ function createPrismaClient() {
   });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+let client: PrismaClient | undefined;
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+function getClient(): PrismaClient {
+  if (!client) {
+    client = globalForPrisma.prisma ?? createPrismaClient();
+    if (process.env.NODE_ENV !== "production") {
+      globalForPrisma.prisma = client;
+    }
+  }
+  return client;
 }
+
+// Connects on first use rather than on import, so `next build` succeeds where
+// DATABASE_URL is not set yet.
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, property) {
+    const instance = getClient();
+    const value = Reflect.get(instance, property, instance);
+    return typeof value === "function" ? value.bind(instance) : value;
+  },
+});
