@@ -8,28 +8,28 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    id: "consultation",
-    name: "Discovery Consultation",
+    id: "new-patient",
+    name: "New Patient Consultation",
     description:
-      "A relaxed first conversation to understand what you need, talk through options, and map out next steps.",
-    durationMinutes: 30,
-    priceCents: 0,
+      "A longer first appointment to review your history, discuss any concerns, and agree on a plan of care together.",
+    durationMinutes: 45,
+    priceCents: 12000,
   },
   {
-    id: "strategy-session",
-    name: "Strategy Session",
+    id: "follow-up",
+    name: "Follow-Up Visit",
     description:
-      "A focused working block where we dig into a single problem and leave with a concrete plan you can act on.",
+      "A focused check-in to review how treatment is going, adjust medication, and answer anything that has come up since.",
+    durationMinutes: 20,
+    priceCents: 7500,
+  },
+  {
+    id: "annual-physical",
+    name: "Annual Physical",
+    description:
+      "A full yearly examination including screenings and bloodwork, with results and recommendations sent afterwards.",
     durationMinutes: 60,
-    priceCents: 15000,
-  },
-  {
-    id: "deep-dive",
-    name: "Half-Day Deep Dive",
-    description:
-      "An extended session for larger projects, including a written summary and recommendations afterwards.",
-    durationMinutes: 240,
-    priceCents: 55000,
+    priceCents: 18000,
   },
 ];
 

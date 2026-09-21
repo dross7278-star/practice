@@ -7,28 +7,42 @@ export default function HomePage() {
   return (
     <>
       <section className="hero-surface">
-        <div className="mx-auto w-full max-w-5xl px-6 py-24 text-center">
-          <h1 className="font-heading text-4xl font-semibold tracking-tight sm:text-6xl">
-            Find a time that actually works
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            No accounts, no back-and-forth email threads. Pick the session you need, tell us when
-            suits you, and we will confirm by email.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/book" className={buttonVariants({ size: "lg" })}>
-              Request a time
-            </Link>
-            <Link href="/services" className={buttonVariants({ size: "lg", variant: "outline" })}>
-              See what we offer
-            </Link>
+        <div className="mx-auto grid w-full max-w-5xl items-center gap-12 px-6 py-24 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
+            <p className="text-sm font-semibold tracking-widest text-red-700 uppercase">
+              Book your appointment
+            </p>
+            <h1 className="mt-4 font-heading text-4xl font-semibold tracking-tight sm:text-6xl">
+              Care that fits your schedule
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-muted-foreground lg:mx-0">
+              No phone queues, no waiting on hold. Choose the appointment you need, tell us when
+              suits you, and our team will confirm by email.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <Link href="/book" className={buttonVariants({ size: "lg" })}>
+                Request a time
+              </Link>
+              <Link href="/services" className={buttonVariants({ size: "lg", variant: "outline" })}>
+                See our appointments
+              </Link>
+            </div>
+          </div>
+
+          {/* Placeholder for the practitioner photo; swap for <Image> once the file is in /public. */}
+          <div className="flex aspect-4/3 items-center justify-center rounded-xl border-2 border-dashed bg-muted/40 p-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Photo goes here
+              <br />
+              <span className="text-xs">Two practitioners, mid-40s, with a patient</span>
+            </p>
           </div>
         </div>
       </section>
 
       <section className="border-t bg-muted/30">
         <div className="mx-auto w-full max-w-5xl px-6 py-20">
-          <h2 className="font-heading text-2xl font-semibold tracking-tight">Popular sessions</h2>
+          <h2 className="font-heading text-2xl font-semibold tracking-tight">Appointment types</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article key={service.id} className="rounded-xl border bg-card p-6">
@@ -49,9 +63,9 @@ export default function HomePage() {
         <h2 className="font-heading text-2xl font-semibold tracking-tight">How it works</h2>
         <ol className="mt-8 grid gap-8 sm:grid-cols-3">
           {[
-            { title: "Choose a session", body: "Each one lists how long it runs and what it costs." },
+            { title: "Choose an appointment", body: "Each one lists how long it runs and what it costs." },
             { title: "Send your times", body: "Tell us the slot you want and anything we should know." },
-            { title: "Get confirmation", body: "We reply by email, usually within one business day." },
+            { title: "Get confirmation", body: "Our team replies by email, usually within one business day." },
           ].map((step, index) => (
             <li key={step.title}>
               <span className="font-heading text-3xl text-red-700">{index + 1}</span>

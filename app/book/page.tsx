@@ -5,7 +5,7 @@ import { BookingForm } from "@/components/booking-form";
 
 export const metadata: Metadata = {
   title: "Book — SlotSync",
-  description: "Request a session time and we will confirm by email.",
+  description: "Request an appointment time and we will confirm by email.",
 };
 
 export default function BookPage() {
@@ -15,7 +15,7 @@ export default function BookPage() {
         Request a time
       </h1>
       <p className="mt-4 text-muted-foreground">
-        Tell us which session you want and when suits you. Times are read in your own time zone.
+        Tell us which appointment you need and when suits you. Times are read in your own time zone.
       </p>
 
       <Suspense fallback={null}>

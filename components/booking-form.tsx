@@ -73,7 +73,7 @@ export function BookingForm() {
     <form onSubmit={handleSubmit} className="mt-10 grid gap-6">
       <div className="grid gap-2">
         <label htmlFor="serviceId" className="text-sm font-medium">
-          Session
+          Appointment
         </label>
         <select
           id="serviceId"

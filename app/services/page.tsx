@@ -5,17 +5,17 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { formatDuration, formatPrice, services } from "@/lib/services";
 
 export const metadata: Metadata = {
-  title: "Services — SlotSync",
-  description: "The sessions you can book with SlotSync, with durations and pricing.",
+  title: "Appointments — SlotSync",
+  description: "The appointments you can book with SlotSync, with durations and pricing.",
 };
 
 export default function ServicesPage() {
   return (
     <div className="mx-auto w-full max-w-5xl px-6 py-20">
-      <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Services</h1>
+      <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Appointments</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
-        Every session is run one-to-one. If none of these are quite right, mention it in the notes
-        when you request a time and we will sort something out.
+        Every appointment is one-to-one with a member of our clinical team. If none of these are
+        quite right, mention it in the notes when you request a time and we will sort something out.
       </p>
 
       <ul className="mt-12 divide-y border-y">
