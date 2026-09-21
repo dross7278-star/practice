@@ -24,6 +24,10 @@ jobs:
       - name: Lint
         run: npx eslint .
 
+      # Generates next-env.d.ts and .next/types (LayoutProps etc.), which are gitignored.
+      - name: Generate route types
+        run: npx next typegen
+
       - name: Type check
         run: npx tsc --noEmit
 
