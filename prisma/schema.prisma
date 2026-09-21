@@ -1,0 +1,152 @@
+// SlotSync data model
+// The datasource URL is supplied by prisma.config.ts (Prisma 7 config-driven datasource).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CLIENT
+  PROVIDER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  emailVerified DateTime?
+  role          Role      @default(CLIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  provider Provider?
+  bookings Booking[] @relation("ClientBookings")
+  accounts Account[]
+  sessions Session[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @id
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Provider {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  businessName String
+  bio          String?
+  // IANA time zone, e.g. "America/New_York". Availability is interpreted in this zone.
+  timeZone     String   @default("UTC")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services     Service[]
+  availability Availability[]
+  bookings     Booking[]
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  providerId      String
+  name            String
+  description     String?
+  durationMinutes Int
+  priceCents      Int
+  currency        String   @default("usd")
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  provider Provider  @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([providerId])
+}
+
+model Availability {
+  id          String   @id @default(cuid())
+  providerId  String
+  // 0 = Sunday .. 6 = Saturday
+  dayOfWeek   Int
+  // Minutes from midnight in the provider's time zone.
+  startMinute Int
+  endMinute   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  provider Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, dayOfWeek, startMinute])
+  @@index([providerId, dayOfWeek])
+}
+
+model Booking {
+  id         String        @id @default(cuid())
+  serviceId  String
+  providerId String
+  clientId   String
+  startsAt   DateTime
+  endsAt     DateTime
+  status     BookingStatus @default(PENDING)
+  notes      String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  service  Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  provider Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  client   User     @relation("ClientBookings", fields: [clientId], references: [id], onDelete: Cascade)
+
+  // Database-level guard against double booking the same slot.
+  @@unique([serviceId, startsAt])
+  @@index([providerId, startsAt])
+  @@index([clientId, startsAt])
+}
