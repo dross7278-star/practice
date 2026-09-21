@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -29,13 +30,15 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Placeholder for the practitioner photo; swap for <Image> once the file is in /public. */}
-          <div className="flex aspect-4/3 items-center justify-center rounded-xl border-2 border-dashed bg-muted/40 p-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              Photo goes here
-              <br />
-              <span className="text-xs">Two practitioners, mid-40s, with a patient</span>
-            </p>
+          <div className="relative aspect-4/3 overflow-hidden rounded-xl border shadow-sm">
+            <Image
+              src="/hero.jpg"
+              alt="A doctor and a patient talking and smiling during an appointment"
+              fill
+              priority
+              sizes="(min-width: 1024px) 480px, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
