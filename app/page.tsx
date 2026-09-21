@@ -31,7 +31,7 @@ export default function HomePage() {
             {services.map((service) => (
               <article key={service.id} className="rounded-xl border bg-card p-6">
                 <h3 className="font-heading text-lg font-semibold">{service.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-1 text-sm font-medium text-red-700">
                   {formatDuration(service.durationMinutes)} &middot; {formatPrice(service.priceCents)}
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -52,7 +52,7 @@ export default function HomePage() {
             { title: "Get confirmation", body: "We reply by email, usually within one business day." },
           ].map((step, index) => (
             <li key={step.title}>
-              <span className="font-heading text-3xl text-muted-foreground/50">{index + 1}</span>
+              <span className="font-heading text-3xl text-red-700">{index + 1}</span>
               <h3 className="mt-2 font-semibold">{step.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
             </li>
